@@ -18,15 +18,17 @@ Public repositories live under [github.com/dlvstudio](https://github.com/dlvstud
 
 ## Local setup (short)
 
-1. Copy example config where needed:
-   - `deltanium-api/vouchers.json.example` → `vouchers.json`
-   - Central API creates `central_keys.json` on first run
-   - Store and Blocker create `node_info.json` on first registration (keep this file private)
+1. **Secrets (never commit):**
+   - API: User Secrets / `ConnectionStrings:Default`; optional `CENTRAL_*_KEY` or `~/.deltanium/central_keys.json`
+   - Shared: `INTERNAL_API_TOKEN` on API + Store + Blocker
+   - Store: `STORE_VOUCHER`; Blocker: `VOUCHER` (one-shot; consumed atomically)
+   - JSON examples only: `vouchers.json.example`, `central_keys.json.example`
 2. Run API, then Store, then Blocker, then the Flutter app.
 3. Point the app at `http://127.0.0.1:5002/api` (`CENTRAL_API_BASE`).
+4. Optional N-of-M: `--dart-define=REPLICATION_FACTOR=2` (default). App uploads full replicas to N stores and calls `POST /api/storedfile/register-replicas`.
 
-Do not commit `central_keys.json`, `node_info.json`, `users.json`, chat data, or any mnemonic / private key.
+Do not commit `central_keys.json`, `node_info.json`, `users.json`, `vouchers.json`, chat data, or any mnemonic / private key.
 
 ## Status
 
-Prototype / MVP. Persistence is file-based JSON, not a production database. Inspector and Router nodes are not implemented yet.
+Prototype / MVP. Persistence prefers **MySQL** (User Secrets); JSON remains a local fallback. Content distribution is **N-of-M full replicas** orchestrated by the app (Central API indexes placements). Inspector and Router nodes are not implemented yet. Architecture overview: `deltanium-app/ARCHITECT.MD`.
