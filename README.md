@@ -4,6 +4,8 @@ Decentralized social network on a custom blockchain, with encrypted storage and 
 
 Public repositories live under [github.com/dlvstudio](https://github.com/dlvstudio).
 
+**Run a community node:** see **[VOUCHERS.md](VOUCHERS.md)** for one-shot Store / Block Creator join codes (seeded on production Central API).
+
 ## Production
 
 | Service | URL |

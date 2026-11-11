@@ -1,0 +1,25 @@
+{
+  "batch": "public-join-2026-11",
+  "issuedAt": "2026-11-11",
+  "centralApi": "https://api.deltanium.com",
+  "notes": "One-shot vouchers. Same pool validates Store and Block Creator registration. Mark Used=true in DB after successful register.",
+  "store": [
+    "PUBLIC-STORE-01-41A6E1BA",
+    "PUBLIC-STORE-02-23CDBA0F",
+    "PUBLIC-STORE-03-ABB4D5BB",
+    "PUBLIC-STORE-04-663F7AB2",
+    "PUBLIC-STORE-05-E0391BC5",
+    "PUBLIC-STORE-06-437E3A4A",
+    "PUBLIC-STORE-07-A32B6207",
+    "PUBLIC-STORE-08-C17C54B2",
+    "PUBLIC-STORE-09-FD02D517",
+    "PUBLIC-STORE-10-0FBD713C"
+  ],
+  "blocker": [
+    "PUBLIC-BLOCKER-01-2EE10206",
+    "PUBLIC-BLOCKER-02-B1620275",
+    "PUBLIC-BLOCKER-03-AEB62F59",
+    "PUBLIC-BLOCKER-04-EEC32BCE",
+    "PUBLIC-BLOCKER-05-8064551E"
+  ]
+}
