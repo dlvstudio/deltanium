@@ -6,6 +6,8 @@ Public repositories live under [github.com/dlvstudio](https://github.com/dlvstud
 
 **Run a community node:** see **[VOUCHERS.md](VOUCHERS.md)** for one-shot Store / Block Creator join codes (seeded on production Central API).
 
+**Economics (D coin):** see **[TOKENOMICS.md](TOKENOMICS.md)** — hard cap, fiat on-ramp, fee splits, no register mint.
+
 ## Production
 
 | Service | URL |
