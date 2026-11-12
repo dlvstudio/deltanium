@@ -99,15 +99,24 @@ Suggested fee split on **protocol service fees** (tunable by governance later):
 
 ---
 
-## 6. What is *not* in scope yet (honest MVP gap)
+## 6. Implementation status
 
-Today’s stack has **fee fields and storage contracts**, but **not** a full end-user **balance ledger** enforced everywhere. This document is the target model; implementation order:
+Central API now exposes a **wallet ledger** (MySQL tables `wallet_accounts`, `wallet_ledger`, `topup_orders`; JSON fallback under `wallet-data/`):
 
-1. Ledger / balance by `publicKey` + treasury wallet  
-2. Fiat order → credit D  
-3. Enforce fee payment on storage / tx  
-4. Node payout from fee split  
-5. Public dashboards (supply, treasury, fees)
+| Endpoint | Auth | Purpose |
+|----------|------|---------|
+| `GET /api/wallet/economics` | public | Cap, fee %, treasury balance |
+| `GET /api/wallet/balance` | signed user | Balance for caller |
+| `GET /api/wallet/ledger` | signed user | Recent ledger rows |
+| `POST /api/wallet/transfer` | signed user | P2P D transfer |
+| `POST /api/wallet/topup` | signed user | Create pending fiat order (quote) |
+| `POST /api/wallet/topup/complete` | `X-Internal-Token` | Credit D from treasury after fiat received |
+
+- Genesis seeds **40% hard cap** into treasury account `deltanium-treasury` on first boot.
+- `Economics:EnforceFees` defaults to **false** so existing flows keep working until balances are funded.
+- App Profile → **Wallet** shows balance and creates top-up orders.
+
+Still to do: automate fiat PSP, enforce non-zero fees on storage/tx, node payout split, public dashboard UI.
 
 ---
 
