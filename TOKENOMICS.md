@@ -110,11 +110,21 @@ Central API now exposes a **wallet ledger** (MySQL tables `wallet_accounts`, `wa
 | `GET /api/wallet/ledger` | signed user | Recent ledger rows |
 | `POST /api/wallet/transfer` | signed user | P2P D transfer |
 | `POST /api/wallet/topup` | signed user | Create pending fiat order (quote) |
-| `POST /api/wallet/topup/complete` | `X-Internal-Token` | Credit D from treasury after fiat received |
+| `POST /api/wallet/topup/complete` | Super Admin sig on TopUp SignPayload | Build network TopUp → blockers → then credit ledger |
+| `GET /api/wallet/admin/topups` | `X-Internal-Token` | List orders (+ `signPayload` for pending) |
+| `POST /api/wallet/admin/topup/approve` | Internal token + Super Admin on SignPayload | Same finalize path as complete |
+
+**Network TopUp tx (blocker):**
+- `Type=TopUp`, `Id=orderId`, `From=Central pubkey`, `To=buyer`
+- `SignPayload` signed by **Central** + **Super Admin** (`signature` + `superAdminSignature`)
+- Blocker requires `CENTRAL_API_PUBLIC_KEY` and `SUPER_ADMIN_PUBLIC_KEY`
+- Wallet ledger credit runs **only after** at least one blocker accepts (or 409 duplicate)
 
 - Genesis seeds **40% hard cap** into treasury account `deltanium-treasury` on first boot.
 - `Economics:EnforceFees` defaults to **false** so existing flows keep working until balances are funded.
 - App Profile → **Wallet** shows balance and creates top-up orders.
+- Ops UI: `https://api.deltanium.com/admin/topup.html`
+- Prod: API + each blocker need `SUPER_ADMIN_PUBLIC_KEY`; Super Admin keeps private key offline.
 
 Still to do: automate fiat PSP, enforce non-zero fees on storage/tx, node payout split, public dashboard UI.
 
