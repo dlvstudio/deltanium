@@ -19,7 +19,9 @@ Related: [VOUCHERS.md](VOUCHERS.md) (node join) · [README.md](README.md) (repos
 
 ## 2. Genesis allocation
 
-Illustrative total supply: **`1_000_000_000 D`** (1B). Final number may be fixed before mainnet economics enforce balances.
+Total supply (hard cap): **10,000,000 DLT** = **`10_000_000_000_000 D`** (10^13 D).
+
+**Units:** base unit **D** with **1 D = 1 VND**; display unit **Deltanium (DLT)** with **1 DLT = 1,000,000 D** (= 1,000,000 VND). Ledger and API amounts are always in D.
 
 | Bucket | Share | Purpose |
 |--------|------:|---------|
@@ -42,9 +44,9 @@ Illustrative total supply: **`1_000_000_000 D`** (1B). Final number may be fixed
 
 | | |
 |--|--|
-| Reference rate | **1,000 VND → 1 D** (before fee) |
+| Reference rate | **1 VND → 1 D** (before fee); 1 DLT = 1,000,000 D |
 | Platform fee | **15%** |
-| User receives | **850 D** per 1,000 VND paid |
+| User receives | **850 D** per 1,000 VND paid (0.85 DLT per 1,000,000 VND) |
 
 UI must show: reference rate, fee %, **D credited**, and order id.
 
@@ -134,7 +136,9 @@ Still to do: automate fiat PSP, enforce non-zero fees on storage/tx, node payout
 
 | Parameter | Default |
 |-----------|---------|
-| Total supply | 1,000,000,000 D (hard cap) |
+| Total supply | 10,000,000 DLT = 10^13 D (hard cap) |
+| Units | 1 D = 1 VND; 1 DLT = 1,000,000 D |
+| Minimum top-up | 10,000 VND |
 | Register grant | 0 D |
 | On-ramp fee | 15% |
 | User D per 1,000 VND at 15% fee | 850 D |
