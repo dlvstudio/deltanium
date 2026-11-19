@@ -23,7 +23,7 @@ All keys are compressed secp256k1 public keys (33 bytes, hex).
 
 | Node | Public key |
 |------|------------|
-| https://blocker-1.deltanium.com | `0200f8829ee2396f13e271b91ac1bd3f8abf493fa455a567c374d0f0960a9bb19b` |
+| https://blocker-1.deltanium.com | `03db3f35e3188578102be1a198b91520c62682f0f85840f9edaa5e8f2293dcabdd` |
 
 ### Stores
 
@@ -55,6 +55,15 @@ Signatures are bound to the network, so testnet keys can never authorize anythin
 |------|------------|
 | https://testnet-store-1.deltanium.com | `038125070af76df1cb2717a77d1f8341d9d0a991a14a3c362bb81860298b739d2e` |
 | https://testnet-store-2.deltanium.com | `028b5553d0a5a15c649a0eb29be9b7eb3923ce245c441cc15d74577f3d2b11d0b8` |
+
+## Revoked keys
+
+Never trust a signature from these keys. They are deactivated on Central and no longer selected.
+
+| Network | Former node | Public key | Revoked | Why |
+|---------|-------------|------------|---------|-----|
+| mainnet | https://blocker-1.deltanium.com | `0200f8829ee2396f13e271b91ac1bd3f8abf493fa455a567c374d0f0960a9bb19b` | 2026-11-19 | Private key was exposed; rotated |
+| mainnet | (failed re-registration, never served) | `03872ddf57552b35d8922b3b5a310a6027e85e4f81e0c00cc0663f8f5fd676f997` | 2026-11-19 | Registered with a wrong endpoint during rotation |
 
 ## Community nodes
 
