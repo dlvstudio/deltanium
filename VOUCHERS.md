@@ -1,5 +1,7 @@
 # Join the Deltanium network — public vouchers
 
+**Step-by-step guide:** https://deltanium.com/node-setup.html
+
 Use a **one-shot voucher** below to register a community **Store** or **Block Creator** node against production Central API:
 
 **https://api.deltanium.com**
@@ -30,10 +32,13 @@ Each code works **once**. After a successful register, Central marks it used. Pr
 3. Set voucher (env / secrets — never commit real codes into tracked config if you fork privately):
 
 ```bash
-export CENTRAL_API_URL="https://api.deltanium.com"
-export NODE_ENDPOINT="https://your-store.example.com"
+export NodeRegistration__ApiUrl="https://api.deltanium.com"
+export NodeRegistration__Endpoint="https://your-store.example.com"   # public HTTPS URL of your node
+export CentralApi__BaseUrl="https://api.deltanium.com"
 export STORE_VOUCHER="PUBLIC-STORE-01-41A6E1BA"   # pick an unused code
 ```
+
+> The Store reads `NodeRegistration__Endpoint`, not `NODE_ENDPOINT`. Without it the node registers its local address.
 
 Or call Central directly:
 
@@ -72,10 +77,13 @@ curl -sS "https://api.deltanium.com/api/storenode/list"
 ```bash
 export CENTRAL_API_URL="https://api.deltanium.com"
 export NODE_ENDPOINT="https://your-blocker.example.com"
-export VOUCHER="PUBLIC-BLOCKER-01-2EE10206"
-# INTERNAL_API_TOKEN must match Central (ask maintainers if running a public blocker)
-dotnet run
+export VOUCHER="PUBLIC-BLOCKER-01-2EE10206"   # pick an unused code
+export CENTRAL_API_PUBLIC_KEY="0390329609c78fff2cd895cb3faf30b1fa868085da0e89dbeeff642258773c9191"
+export SUPER_ADMIN_PUBLIC_KEY="021fd57c80fd85156c307e2f1c0bc278ea0eeabac930835ab989803ee2d77165f7"
+dotnet run -c Release
 ```
+
+Check both keys against [NODE_KEYS.md](NODE_KEYS.md).
 
 Or:
 
@@ -89,7 +97,6 @@ curl -sS -X POST "https://api.deltanium.com/api/BlockCreatorNode/register" \
   }'
 ```
 
-> Block creators that pull transactions need the shared `INTERNAL_API_TOKEN` with Central. Registration alone does not publish that secret.
 
 ## Machine-readable batch
 
