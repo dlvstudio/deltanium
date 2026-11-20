@@ -6,9 +6,20 @@ Use a **one-shot voucher** below to register a community **Store** or **Block Cr
 
 **https://api.deltanium.com**
 
-Each code works **once**. After a successful register, Central marks it used. Prefer Store codes for storage nodes and Blocker codes for block creators (they share the same DB pool).
+Each code works **once**. Prefer Store codes for storage nodes and Blocker codes for block creators (they share the same DB pool).
 
-> Public vouchers are first-come, first-served. Do not reuse a code after someone else has registered with it.
+## How joining works
+
+1. **Register.** On first start the node creates its key and sends a registration **signed with that key** (the easiest way is the
+   [installer](https://deltanium.com/node-setup.html)). Central answers `202` with status `awaiting_payment`. The voucher is checked but **not spent yet**.
+2. **Pay the registration fee: 100,000 VND**, by bank transfer or PayPal, with the transfer note Central gives (`NODE…`).
+   The node log, the installer and `GET https://api.deltanium.com/api/noderegistration/<node public key>` show the amount, account and note.
+3. **Super Admin approval.** The Super Admin matches the payment and signs the approval. Only then is the voucher spent.
+4. **Activation.** Central checks that the node answers on its address (HTTPS or DLTP) and activates it. Until it answers, it stays `approved`
+   and Central retries every few minutes. Node lists only show nodes that are online.
+
+> Public vouchers are first-come, first-served, but a code is spent only by an approved, paid registration: registering many fake nodes
+> cannot burn the list. If someone else's approved registration used your code first, pick another one.
 
 ## Store node vouchers
 
@@ -40,19 +51,9 @@ export STORE_VOUCHER="PUBLIC-STORE-01-41A6E1BA"   # pick an unused code
 
 > The Store reads `NodeRegistration__Endpoint`, not `NODE_ENDPOINT`. Without it the node registers its local address.
 
-Or call Central directly:
+Calling `/api/storenode/register` by hand is not enough any more: the body must be signed with the node key (`timestamp`, `signature`). Let the node register itself.
 
-```bash
-curl -sS -X POST "https://api.deltanium.com/api/storenode/register" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "endpoint": "https://your-store.example.com",
-    "voucher": "PUBLIC-STORE-01-41A6E1BA",
-    "publicKey": "<your-node-compressed-or-hex-pubkey>"
-  }'
-```
-
-Confirm discovery:
+Then pay the fee (see **How joining works**) and wait for approval. Confirm discovery:
 
 ```bash
 curl -sS "https://api.deltanium.com/api/storenode/list"
@@ -85,17 +86,7 @@ dotnet run -c Release
 
 Check both keys against [NODE_KEYS.md](NODE_KEYS.md).
 
-Or:
-
-```bash
-curl -sS -X POST "https://api.deltanium.com/api/BlockCreatorNode/register" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "endpoint": "https://your-blocker.example.com",
-    "voucher": "PUBLIC-BLOCKER-01-2EE10206",
-    "publicKey": "<your-node-pubkey>"
-  }'
-```
+Calling `/api/BlockCreatorNode/register` by hand is not enough any more: the body must be signed with the node key. Let the node register itself.
 
 
 ## Machine-readable batch
